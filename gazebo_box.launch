@@ -1,0 +1,21 @@
+<!-- File: spawn_robot.launch -->
+
+<launch>
+
+  <!-- Start Gazebo with the default empty world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- Load URDF model into Gazebo -->
+  <arg name="urdf_file" default="$(find my_teleop)/box.urdf.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(arg urdf_file)'" />
+
+  <!-- Spawn the robot in Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -model simple_box -param robot_description" />
+
+</launch>
